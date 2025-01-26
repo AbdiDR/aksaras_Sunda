@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Klasifikasi Aksara Sunda</title>
+		<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+		<style>
+			.btn-primary {
+				background-color: #0d6efd;
+			}
+
+			.btn-primary:hover {
+				background-color: #0b5ed7;
+			}
+		</style>
+	</head>
+
+	<body class="bg-gray-100">
+		<div class="flex justify-center items-center h-screen">
+			<div class="bg-white p-6 rounded-lg shadow-md w-96">
+				<h1 class="text-xl font-bold text-center mb-4">Klasifikasi Aksara Sunda</h1>
+
+				<div class="flex justify-between mb-4">
+					<!-- Display Uploaded Image -->
+					<div class="w-1/2 pr-2">
+						<h2 class="text-sm font-semibold text-center mb-2">Gambar Asli</h2>
+						{% if uploaded_image %}
+						<img
+							src="{{ url_for('send_uploaded_image', filename=uploaded_image) }}"
+							class="w-full h-40 object-cover border rounded"
+						/>
+						{% else %}
+						<div class="flex justify-center items-center w-full h-40 bg-gray-100 border rounded">
+							<p class="text-gray-500 text-center">Masukkan Gambar</p>
+						</div>
+						{% endif %}
+					</div>
+
+					<!-- Display Preprocessed Image -->
+					<div class="w-1/2 pl-2">
+						<h2 class="text-sm font-semibold text-center mb-2">Hasil Prapemrosesan</h2>
+						{% if uploaded_image %}
+						<img
+							src="{{ url_for('send_preprocessed_image', filename=preprocessed_image) }}"
+							class="w-full h-40 object-cover border rounded"
+						/>
+						{% else %}
+						<div class="flex justify-center items-center w-full h-40 bg-gray-100 border rounded">
+							<p class="text-gray-500 text-center">Belum Ada Hasil</p>
+						</div>
+						{% endif %}
+					</div>
+				</div>
+
+				<!-- Static Section for Results -->
+				<p class="text-center mb-4">
+					Karakter: <span class="font-bold">{% if prediction %}{{ prediction }}{% else %}-{% endif %}</span>
+				</p>
+				<p class="text-center mb-4">
+					Confidence Level: <span class="font-bold">{% if confidence_level %}{{ confidence_level }}%{% else %}-{% endif %}</span>
+				</p>
+
+				<form method="post" enctype="multipart/form-data">
+					<input type="file" name="image" class="w-full mb-4 border rounded p-2" />
+					<button type="submit" class="w-full py-2 text-white font-bold rounded btn-primary">Prediksi</button>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>
