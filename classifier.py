@@ -35,10 +35,13 @@ def preprocess_image(filepath):
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     centered = center_handwritten_image(img)
     equalized = cv2.equalizeHist(centered)
+    sift = cv2.SIFT_create()
+    keypoints, _ = sift.detectAndCompute(equalized, None)
+    img_with_keypoints = cv2.drawKeypoints(equalized, keypoints, None, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
     original_name = os.path.splitext(os.path.basename(filepath))[0]
     preprocessed_path = os.path.join("static/results", f"processed_image_{original_name}.jpg")
-    cv2.imwrite(preprocessed_path, equalized)
-    return preprocessed_path, equalized
+    cv2.imwrite(preprocessed_path, img_with_keypoints)
+    return preprocessed_path, img_with_keypoints
 
 def create_feature_bow(image_descriptor, bow, num_cluster):
     features = np.zeros(num_cluster, dtype=float)
