@@ -41,7 +41,7 @@ def preprocess_image(filepath):
     original_name = os.path.splitext(os.path.basename(filepath))[0]
     preprocessed_path = os.path.join("static/results", f"processed_image_{original_name}.jpg")
     cv2.imwrite(preprocessed_path, img_with_keypoints)
-    return preprocessed_path, img_with_keypoints
+    return preprocessed_path, equalized
 
 def create_feature_bow(image_descriptor, bow, num_cluster):
     features = np.zeros(num_cluster, dtype=float)
